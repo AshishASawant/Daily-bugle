@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import Newscontext from "./newsContext";
 
 const Newsstate = (props) => {
-  // const apiKey=process.env.React_APP_Daily_Bugel_API_Key
-  const apiKey='pub_139602418afec01948e6ba8145c7d6379fdd3'
+  const apiKey=process.env.React_APP_Daily_Bugel_API_Key
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(false)
   const [newsdetails, setNewsdetails] = useState({
