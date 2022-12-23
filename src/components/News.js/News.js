@@ -10,11 +10,7 @@ const News = (props) => {
   const context = useContext(newsContext);
   const { news, setNewsdetails, fetchMoreData,loading, setLoading} = context;
 
-  useEffect(
-    () => {
-      setNewsdetails({
-        
-      });
+  useEffect(() => {
       setLoading(true)
       setNewsdetails({
         category: props.category,
@@ -33,14 +29,13 @@ const News = (props) => {
           <InfiniteScroll
             dataLength={news.length}
             next={fetchMoreData}
-            hasMore={news.length !==20}
+            hasMore={news.length<20}
             loader={<Loading/>}
           >{loading && <Loading/>}
             <div className="grid-row">
-              {news.map((data) => {
-                // if(data.title && data.description){
-                return (
-                  <div className="card" key={data.link}>
+              {news.map((data,i) => {
+                return(data.title && data.description?
+                  <div className="card" key={i}>
                     <div className="card-top">
                       <img
                         src={data.image_url || "./img2.jpg"}
@@ -73,9 +68,9 @@ const News = (props) => {
                         {data.source_id}
                       </a>
                     </div>
-                  </div>
-                );
-              })}
+                  </div>:""
+                )}
+              )}
             </div>
           </InfiniteScroll>
         </div>
