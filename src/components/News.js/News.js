@@ -8,14 +8,11 @@ import InfiniteScroll from "react-infinite-scroll-component";
 const News = (props) => {
   const location = useLocation();
   const context = useContext(newsContext);
-  const { news, setNewsdetails, fetchMoreData,loading, setLoading} = context;
+  const { news, fetchMoreData,loading, setLoading,getNews} = context;
 
   useEffect(() => {
       setLoading(true)
-      setNewsdetails({
-        category: props.category,
-        page: 1,
-      });
+      getNews(props.category)
     }, // eslint-disable-next-line
     [location]
   );

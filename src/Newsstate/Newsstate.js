@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Newscontext from "./newsContext";
 
 const Newsstate = (props) => {
@@ -7,42 +7,26 @@ const Newsstate = (props) => {
   const [loading, setLoading] = useState(false)
   const [newsdetails, setNewsdetails] = useState({
     category:'',
-    page:1,
   })
+  
 
-  useEffect(()=>{
-    if(newsdetails.page===1){
-      getNews()
-      window.scrollTo(0,0)
-    }
-    
-    
-    // eslint-disable-next-line
-  },[newsdetails])
-
-  const getNews = async () => {
-    console.log(newsdetails)
+  const getNews = async (category) => {
     let data = await fetch(
-      `https://newsdata.io/api/1/news?apikey=${apiKey}&category=${newsdetails.category}&language=en&page=${newsdetails.page}`
+      `https://newsdata.io/api/1/news?apikey=${apiKey}&category=${category}&language=en`
     );
     let json = await data.json();
     setNews(json.results);
-
+    setNewsdetails({'category':category,"nextPage":json.nextPage});
+    window.scrollTo(0,0)
     setLoading(false)
   };
 
-  const fetchMoreData= async()=>{
-
+  const fetchMoreData= async()=>{    
     let data = await fetch(
-      `https://newsdata.io/api/1/news?apikey=${apiKey}&category=${newsdetails.category}&language=en&page=${newsdetails.page+1}`
+      `https://newsdata.io/api/1/news?apikey=${apiKey}&category=${newsdetails.category}&language=en&page=${newsdetails.nextPage}`
       );
       let json = await data.json();
-      console.log(json)
       setNews(news.concat(json.results));
-      setNewsdetails({
-        category:newsdetails.category,
-        page:newsdetails.page+1
-      })
   }
 
 
